@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
 import Todo from "./components/Todo"
 import TodoForm from "./components/TodoForm"
 
 const Home = () => {
+	const navigate = useNavigate()
 	const [todos, setTodos] = useState([
 		{
 			text: "First todo",
@@ -67,7 +69,13 @@ const Home = () => {
 					/>
 				))}
 			</TodoContainer>
-			<Nudge>Looking to save your tasks? Sign up for an account!</Nudge>
+			<Nudge
+				onClick={() => {
+					navigate("/login")
+				}}
+			>
+				Login
+			</Nudge>
 		</div>
 	)
 }
@@ -79,4 +87,7 @@ const TodoContainer = styled.div`
 	flex-direction: column;
 	justify-content: flex-start;
 `
-const Nudge = styled.span``
+const Nudge = styled.span`
+	font-size: 16px;
+	cursor: pointer;
+`
