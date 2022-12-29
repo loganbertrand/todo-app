@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
-import { auth, signInWithEmailAndPassword, signInWithGoogle } from "../firebase"
+import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { ColorRing } from "react-loader-spinner"
 
@@ -11,14 +11,6 @@ const Login = () => {
 	const [secure, setSecure] = useState(true)
 	const [user, loading, error] = useAuthState(auth)
 	const navigate = useNavigate()
-
-	const handleSubmit = () => {
-		console.log("Regular submission button clicked")
-	}
-
-	const handleGoogleSubmit = () => {
-		console.log("Google Sign In submission button clicked")
-	}
 
 	useEffect(() => {
 		if (user) navigate("/dashboard")
@@ -35,12 +27,31 @@ const Login = () => {
 			)}
 			{!loading && (
 				<Container>
-					<Email placeholder="Email Address" />
-					<Password type={"password"} placeholder="Password" />
-					<Submit onClick={handleSubmit}>Submit</Submit>
-					<Google onClick={handleGoogleSubmit}>
+					<Email
+						placeholder="Email Address"
+						onChange={(e) => setEmail(e)}
+					/>
+					<Password
+						type={"password"}
+						placeholder="Password"
+						onChange={(e) => setPassword(e)}
+					/>
+					<Submit
+						onClick={() =>
+							logInWithEmailAndPassword(email, password)
+						}
+					>
+						Submit
+					</Submit>
+					<Google onClick={signInWithGoogle}>
 						Sign in with Google
 					</Google>
+					<Link to={"/reset"}>
+						<Text>Forgot Password</Text>
+					</Link>
+					<Link to={"/register"}>
+						<Text>Sign Up</Text>
+					</Link>
 				</Container>
 			)}
 		</div>
@@ -76,8 +87,13 @@ const Password = styled.input`
 const Submit = styled.button`
 	padding: 2% 5% 2% 5%;
 	margin-top: 5%;
+	cursor: pointer;
 `
 const Google = styled.button`
 	padding: 2% 5% 2% 5%;
 	margin-top: 5%;
+	cursor: pointer;
+`
+const Text = styled.span`
+	font-size: 16px;
 `
