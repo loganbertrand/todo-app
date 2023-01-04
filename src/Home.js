@@ -1,12 +1,20 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
+import { query, collection, getDocs, where } from "firebase/firestore"
+import { useAuthState } from "react-firebase-hooks/auth"
 
 import Todo from "./components/Todo"
 import TodoForm from "./components/TodoForm"
+import { auth, db, logout } from "./firebase"
+import { async } from "@firebase/util"
 
 const Home = () => {
 	const navigate = useNavigate()
+
+	const [user, loading, error] = useAuthState(auth)
+	const [name, setName] = useState("")
+	const [signedIn, setSignedIn] = useState(false)
 	const [todos, setTodos] = useState([
 		{
 			text: "First todo",
@@ -31,22 +39,52 @@ const Home = () => {
 		setValue("")
 	}
 
-	const addTodo = (text) => {
-		const newTodos = [...todos, { text }]
-		setTodos(newTodos)
+	const addTodo = async (text) => {
+		if (!loading) {
+			if (user) {
+				console.log("insert firebase stuff")
+			} else {
+				const newTodos = [...todos, { text }]
+				setTodos(newTodos)
+			}
+		}
 	}
 
-	const completeTodo = (index) => {
+	const completeTodo = async (index) => {
 		const newTodos = [...todos]
 		newTodos[index].isCompleted = true
 		setTodos(newTodos)
 	}
 
-	const deleteTodo = (index) => {
+	const deleteTodo = async (index) => {
 		const newTodos = [...todos]
 		newTodos.splice(index, 1)
 		setTodos(newTodos)
 	}
+
+	const getUsername = async () => {
+		try {
+			const q = query(
+				collection(db, "users"),
+				where("uid", "==", user?.uid)
+			)
+			const doc = await getDocs(q)
+			const data = doc.docs[0].data()
+			setName(data.name)
+		} catch (err) {
+			console.error(err)
+			alert(
+				"Error while attempting to grab user data, please try again later"
+			)
+		}
+	}
+
+	useEffect(() => {
+		if (loading) return
+		if (user) {
+			getUsername()
+		}
+	}, [user, loading])
 	return (
 		<div>
 			<TodoForm
@@ -69,13 +107,16 @@ const Home = () => {
 					/>
 				))}
 			</TodoContainer>
-			<Nudge
-				onClick={() => {
-					navigate("/login")
-				}}
-			>
-				Login
-			</Nudge>
+			{!user &&
+				!loading(
+					<Nudge
+						onClick={() => {
+							navigate("/login")
+						}}
+					>
+						Login
+					</Nudge>
+				)}
 		</div>
 	)
 }
