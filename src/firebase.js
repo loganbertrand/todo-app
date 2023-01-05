@@ -15,6 +15,8 @@ import {
 	collection,
 	where,
 	addDoc,
+	orderBy,
+	Timestamp,
 } from "firebase/firestore"
 const firebaseConfig = {
 	apiKey: "AIzaSyA1Yv6Xy7-3eul2KGSTOfB2rXR9nMWZa04",
@@ -50,7 +52,8 @@ const signInWithGoogle = async () => {
 }
 const logInWithEmailAndPassword = async (email, password) => {
 	try {
-		await signInWithEmailAndPassword(auth, email, password)
+		const response = await signInWithEmailAndPassword(auth, email, password)
+		console.log("login response:", response)
 	} catch (err) {
 		console.error(err)
 		alert(err.message)
@@ -83,6 +86,26 @@ const sendPasswordReset = async (email) => {
 const logout = () => {
 	signOut(auth)
 }
+
+const grabTodos = async (user) => {
+	const response = await getDocs(
+		collection(db, "todos"),
+		where("uid", "==", user),
+		orderBy("createdAt", "desc")
+	)
+	response.forEach((doc) => {
+		console.log(doc.id, "=>", doc.metadata)
+	})
+}
+
+const postTodo = async (user, todo) => {
+	const response = await addDoc(collection(db, "todos"), {
+		username: user,
+		todoValue: todo,
+		createdAt: Timestamp.fromDate(new Date("December 10, 1815")),
+	})
+	console.log("Add Doc Response:", response)
+}
 export {
 	auth,
 	db,
@@ -91,4 +114,6 @@ export {
 	registerWithEmailAndPassword,
 	sendPasswordReset,
 	logout,
+	grabTodos,
+	postTodo,
 }

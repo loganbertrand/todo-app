@@ -1,20 +1,16 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import { query, collection, getDocs, where } from "firebase/firestore"
 import { useAuthState } from "react-firebase-hooks/auth"
 
 import Todo from "./components/Todo"
 import TodoForm from "./components/TodoForm"
-import { auth, db, logout } from "./firebase"
-import { async } from "@firebase/util"
+import { auth, logout, grabTodos, postTodo } from "./firebase"
 
 const Home = () => {
 	const navigate = useNavigate()
 
-	const [user, loading, error] = useAuthState(auth)
-	const [name, setName] = useState("")
-	const [signedIn, setSignedIn] = useState(false)
+	const [user, loading] = useAuthState(auth)
 	const [todos, setTodos] = useState([
 		{
 			text: "First todo",
@@ -43,6 +39,7 @@ const Home = () => {
 		if (!loading) {
 			if (user) {
 				console.log("insert firebase stuff")
+				postTodo(user.uid, text)
 			} else {
 				const newTodos = [...todos, { text }]
 				setTodos(newTodos)
@@ -62,27 +59,10 @@ const Home = () => {
 		setTodos(newTodos)
 	}
 
-	const getUsername = async () => {
-		try {
-			const q = query(
-				collection(db, "users"),
-				where("uid", "==", user?.uid)
-			)
-			const doc = await getDocs(q)
-			const data = doc.docs[0].data()
-			setName(data.name)
-		} catch (err) {
-			console.error(err)
-			alert(
-				"Error while attempting to grab user data, please try again later"
-			)
-		}
-	}
-
 	useEffect(() => {
 		if (loading) return
 		if (user) {
-			getUsername()
+			grabTodos(user.uid)
 		}
 	}, [user, loading])
 	return (
@@ -92,23 +72,24 @@ const Home = () => {
 				onChange={(e) => setValue(e.target.value)}
 				value={value}
 			/>
-			<TodoContainer>
-				{todos.map((todo, index) => (
-					<Todo
-						key={index}
-						index={index}
-						todo={todo}
-						handleComplete={() => {
-							completeTodo(index)
-						}}
-						handleDelete={() => {
-							deleteTodo(index)
-						}}
-					/>
-				))}
-			</TodoContainer>
-			{!user &&
-				!loading(
+
+			{!user && !loading && (
+				<>
+					<TodoContainer>
+						{todos.map((todo, index) => (
+							<Todo
+								key={index}
+								index={index}
+								todo={todo}
+								handleComplete={() => {
+									completeTodo(index)
+								}}
+								handleDelete={() => {
+									deleteTodo(index)
+								}}
+							/>
+						))}
+					</TodoContainer>
 					<Nudge
 						onClick={() => {
 							navigate("/login")
@@ -116,7 +97,36 @@ const Home = () => {
 					>
 						Login
 					</Nudge>
-				)}
+				</>
+			)}
+			{user && !loading && (
+				<>
+					<TodoContainer>
+						{todos.map((todo, index) => (
+							<Todo
+								key={index}
+								index={index}
+								todo={todo}
+								handleComplete={() => {
+									completeTodo(index)
+								}}
+								handleDelete={() => {
+									deleteTodo(index)
+								}}
+							/>
+						))}
+					</TodoContainer>
+					<Nudge
+						onClick={() => {
+							logout()
+						}}
+					>
+						Logout
+					</Nudge>
+					<br />
+					<Nudge>{user.displayName}</Nudge>
+				</>
+			)}
 		</div>
 	)
 }

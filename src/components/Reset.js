@@ -12,7 +12,7 @@ const Reset = () => {
 	const navigate = useNavigate()
 	useEffect(() => {
 		if (loading) return
-		if (user) navigate("/dashboard")
+		if (user) navigate("/")
 	}, [user, loading])
 	return (
 		<Container>
@@ -22,6 +22,9 @@ const Reset = () => {
 			</Submit>
 			<Link to={"/login"}>
 				<Text>Don't have an Account?</Text>
+			</Link>
+			<Link to={"/"}>
+				<Text>Home</Text>
 			</Link>
 		</Container>
 	)

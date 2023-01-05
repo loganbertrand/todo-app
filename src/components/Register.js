@@ -21,7 +21,7 @@ const Register = () => {
 	}
 	useEffect(() => {
 		if (loading) return
-		if (user) navigate("/dashboard")
+		if (user) navigate("/")
 	}, [user, loading])
 
 	return (
@@ -42,10 +42,13 @@ const Register = () => {
 				onChange={(e) => setPassword(e)}
 				mb="5%"
 			/>
-			<Submit onClick={() => register}>Submit</Submit>
+			<Submit onClick={register}>Submit</Submit>
 			<Google onClick={signInWithGoogle}>Register with Google</Google>
 			<Link to={"/login"}>
 				<Text>Already have an Account?</Text>
+			</Link>
+			<Link to={"/"}>
+				<Text>Home</Text>
 			</Link>
 		</Container>
 	)

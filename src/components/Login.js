@@ -13,7 +13,7 @@ const Login = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (user) navigate("/dashboard")
+		if (user) navigate("/")
 	}, [user, loading])
 	return (
 		<div>
@@ -51,6 +51,9 @@ const Login = () => {
 					</Link>
 					<Link to={"/register"}>
 						<Text>Sign Up</Text>
+					</Link>
+					<Link to={"/"}>
+						<Text>Home</Text>
 					</Link>
 				</Container>
 			)}
@@ -96,4 +99,5 @@ const Google = styled.button`
 `
 const Text = styled.span`
 	font-size: 16px;
+	color: white;
 `
