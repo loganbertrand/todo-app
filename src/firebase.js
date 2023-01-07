@@ -15,8 +15,9 @@ import {
 	collection,
 	where,
 	addDoc,
-	orderBy,
+	doc,
 	Timestamp,
+	deleteDoc,
 } from "firebase/firestore"
 const firebaseConfig = {
 	apiKey: "AIzaSyA1Yv6Xy7-3eul2KGSTOfB2rXR9nMWZa04",
@@ -31,6 +32,7 @@ const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 const db = getFirestore(app)
 const googleProvider = new GoogleAuthProvider()
+
 const signInWithGoogle = async () => {
 	try {
 		const res = await signInWithPopup(auth, googleProvider)
@@ -87,24 +89,26 @@ const logout = () => {
 	signOut(auth)
 }
 
-const grabTodos = async (user) => {
-	const response = await getDocs(
-		collection(db, "todos"),
-		where("uid", "==", user),
-		orderBy("createdAt", "desc")
-	)
-	response.forEach((doc) => {
-		console.log(doc.id, "=>", doc.metadata)
-	})
+const postTodo = async (user, todo) => {
+	try {
+		await addDoc(collection(db, "todos"), {
+			username: user,
+			todoValue: todo,
+			createdAt: Timestamp.fromDate(new Date()),
+		})
+	} catch (err) {
+		alert(err.message)
+	}
 }
 
-const postTodo = async (user, todo) => {
-	const response = await addDoc(collection(db, "todos"), {
-		username: user,
-		todoValue: todo,
-		createdAt: Timestamp.fromDate(new Date("December 10, 1815")),
-	})
-	console.log("Add Doc Response:", response)
+const deleteTodoItem = async (todo) => {
+	try {
+		console.log("delete: ", todo)
+		const response = await deleteDoc(doc(db, "todos", `${todo}`))
+		console.log("Delete response: ", response)
+	} catch (err) {
+		console.error(err)
+	}
 }
 export {
 	auth,
@@ -114,6 +118,6 @@ export {
 	registerWithEmailAndPassword,
 	sendPasswordReset,
 	logout,
-	grabTodos,
 	postTodo,
+	deleteTodoItem,
 }

@@ -8,11 +8,11 @@ import { ColorRing } from "react-loader-spinner"
 const Login = () => {
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
-	const [secure, setSecure] = useState(true)
 	const [user, loading, error] = useAuthState(auth)
 	const navigate = useNavigate()
 
 	useEffect(() => {
+		if (loading) return
 		if (user) navigate("/")
 	}, [user, loading])
 	return (

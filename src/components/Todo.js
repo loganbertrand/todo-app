@@ -1,12 +1,21 @@
 import React from "react"
 import styled from "styled-components"
 
-const Todo = ({ todo, handleComplete, handleDelete }) => {
+export const TodoDemo = ({ todo, handleComplete, handleDelete }) => {
 	return (
 		<Container>
 			<CompleteButton onClick={handleComplete}>Complete</CompleteButton>
 			<DeleteButton onClick={handleDelete}>X</DeleteButton>
 			<Text completed={todo.isCompleted}>{todo.text}</Text>
+		</Container>
+	)
+}
+
+const Todo = ({ todo, handleComplete, handleDelete }) => {
+	return (
+		<Container>
+			<DeleteButton onClick={handleDelete}>X</DeleteButton>
+			<Text>{todo.todoValue}</Text>
 		</Container>
 	)
 }
