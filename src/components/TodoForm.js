@@ -1,10 +1,10 @@
 import React from "react"
-import styled from "styled-components"
+import { InputTask } from "./Input"
 
 const TodoForm = ({ value, onChange, onSubmit }) => {
 	return (
 		<form onSubmit={onSubmit}>
-			<input type={"text"} value={value} onChange={onChange} />
+			<InputTask type={"text"} value={value} onChange={onChange} />
 		</form>
 	)
 }

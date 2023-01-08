@@ -7,7 +7,7 @@ import {
 	registerWithEmailAndPassword,
 	signInWithGoogle,
 } from "../firebase"
-import Input from "./Input"
+import { InputLogin } from "./Input"
 
 const Register = () => {
 	const [email, setEmail] = useState("")
@@ -26,17 +26,17 @@ const Register = () => {
 
 	return (
 		<Container>
-			<Input
+			<InputLogin
 				placeholder="Full Name"
 				onChange={(e) => setName(e)}
 				mb="5%"
 			/>
-			<Input
+			<InputLogin
 				placeholder="Email Address"
 				onChange={(e) => setEmail(e)}
 				mb="5%"
 			/>
-			<Input
+			<InputLogin
 				type={"password"}
 				placeholder="Password"
 				onChange={(e) => setPassword(e)}

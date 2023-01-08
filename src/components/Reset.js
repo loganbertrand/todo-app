@@ -4,7 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { auth, sendPasswordReset } from "../firebase"
-import Input from "./Input"
+import { InputLogin } from "./Input"
 
 const Reset = () => {
 	const [email, setEmail] = useState("")
@@ -16,7 +16,10 @@ const Reset = () => {
 	}, [user, loading])
 	return (
 		<Container>
-			<Input placeholder="Email Address" onChange={(e) => setEmail(e)} />
+			<InputLogin
+				placeholder="Email Address"
+				onChange={(e) => setEmail(e)}
+			/>
 			<Submit onClick={() => sendPasswordReset(email)}>
 				Send Reset Email
 			</Submit>
