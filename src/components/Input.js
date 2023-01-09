@@ -41,12 +41,15 @@ const InputContainer = styled.input`
 const InputField = styled.input`
 	background: transparent;
 	border: none;
-	border-bottom: 1px solid #ffffff;
+	border-bottom: 1px solid #000000;
 	box-shaow: none;
 	text-align: left;
 	height: ${(props) => (props.height ? props.height : "48px")};
 	width: ${(props) => (props.mb ? props.mb : "300px")};
 	font-size: 20px;
-	padding-left: 16px;
+	padding-left: 5px;
 	margin-bottom: ${(props) => (props.mb ? props.mb : null)};
+	&:focus {
+		outline: none;
+	}
 `

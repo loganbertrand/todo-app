@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { ButtonCheck } from "./components/Button"
 
 export const TodoDemo = ({ todo, handleComplete, handleDelete }) => {
 	return (
@@ -14,7 +15,7 @@ export const TodoDemo = ({ todo, handleComplete, handleDelete }) => {
 const Todo = ({ todo, handleComplete, handleDelete }) => {
 	return (
 		<Container>
-			<DeleteButton onClick={handleDelete}>X</DeleteButton>
+			<ButtonCheck onClick={handleDelete} />
 			<Text>{todo.todoValue}</Text>
 		</Container>
 	)

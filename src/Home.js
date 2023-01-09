@@ -6,6 +6,8 @@ import { getDocs, collection, where, orderBy } from "firebase/firestore"
 
 import Todo, { TodoDemo } from "./components/Todo"
 import TodoForm from "./components/TodoForm"
+import { Nav } from "./components/Nav"
+
 import { auth, logout, postTodo, db, deleteTodoItem } from "./firebase"
 
 const Home = () => {
@@ -92,69 +94,78 @@ const Home = () => {
 		}
 	}, [user, loading])
 	return (
-		<div>
-			<TodoForm
-				onSubmit={handleSubmit}
-				onChange={(e) => setValue(e.target.value)}
-				value={value}
-			/>
+		<>
+			<Nav user={user} />
 
-			{!user && !loading && (
-				<>
-					<TodoContainer>
-						{todosDemo.map((todo, index) => (
-							<TodoDemo
-								key={index}
-								index={index}
-								todo={todo}
-								handleComplete={() => {
-									completeTodoDemo(index)
-								}}
-								handleDelete={() => {
-									deleteTodo(index, todo)
-								}}
-							/>
-						))}
-					</TodoContainer>
-					<Nudge
-						onClick={() => {
-							navigate("/login")
-						}}
-					>
-						Login
-					</Nudge>
-				</>
-			)}
-			{user && !loading && (
-				<>
-					<TodoContainer>
-						{todos.map((todo, index) => (
-							<Todo
-								key={index}
-								index={index}
-								todo={todo.data}
-								handleDelete={() => {
-									deleteTodo(index, todo)
-								}}
-							/>
-						))}
-					</TodoContainer>
-					<Nudge
-						onClick={() => {
-							logout()
-						}}
-					>
-						Logout
-					</Nudge>
-					<br />
-					<Nudge>{user.displayName}</Nudge>
-				</>
-			)}
-		</div>
+			<Container>
+				<Title>Daily Tasks</Title>
+				<TodoForm
+					onSubmit={handleSubmit}
+					onChange={(e) => setValue(e.target.value)}
+					value={value}
+				/>
+
+				{!user && !loading && (
+					<>
+						<TodoContainer>
+							{todosDemo.map((todo, index) => (
+								<TodoDemo
+									key={index}
+									index={index}
+									todo={todo}
+									handleComplete={() => {
+										completeTodoDemo(index)
+									}}
+									handleDelete={() => {
+										deleteTodo(index, todo)
+									}}
+								/>
+							))}
+						</TodoContainer>
+						<Nudge
+							onClick={() => {
+								navigate("/login")
+							}}
+						>
+							Login
+						</Nudge>
+					</>
+				)}
+				{user && !loading && (
+					<>
+						<TodoContainer>
+							{todos.map((todo, index) => (
+								<Todo
+									key={index}
+									index={index}
+									todo={todo.data}
+									handleDelete={() => {
+										deleteTodo(index, todo)
+									}}
+								/>
+							))}
+						</TodoContainer>
+						<Nudge
+							onClick={() => {
+								logout()
+							}}
+						>
+							Logout
+						</Nudge>
+						<br />
+						<Nudge>{user.displayName}</Nudge>
+					</>
+				)}
+			</Container>
+		</>
 	)
 }
 
 export default Home
+
+const Container = styled.div``
+
+const Title = styled.h1``
 
 const TodoContainer = styled.div`
 	display: flex;
