@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { ColorRing } from "react-loader-spinner"
+
+import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../firebase"
+import { Nav } from "./Nav"
+import { Input } from "./Input"
+import { Button } from "./Button"
 
 const Login = () => {
 	const [email, setEmail] = useState("")
@@ -16,7 +20,9 @@ const Login = () => {
 		if (user) navigate("/")
 	}, [user, loading])
 	return (
-		<div>
+		<>
+			<Nav />
+			<Title>Sign In</Title>
 			{loading && (
 				<ColorRing
 					visible={true}
@@ -27,37 +33,59 @@ const Login = () => {
 			)}
 			{!loading && (
 				<Container>
-					<Email
-						placeholder="Email Address"
-						onChange={(e) => setEmail(e)}
+					<Button
+						w={"100%"}
+						m={"0 0 5% 0"}
+						onClick={signInWithGoogle}
 					/>
-					<Password
+
+					<Or>or</Or>
+
+					<Input
+						placeholder="Email"
+						onChange={(e) => setEmail(e)}
+						mb={"5%"}
+						width={"100%"}
+					/>
+					<Input
 						type={"password"}
 						placeholder="Password"
+						mb={"5%"}
+						width={"100%"}
 						onChange={(e) => setPassword(e)}
 					/>
-					<Submit
+					<div
+						style={{
+							flexDirection: "row",
+							justifyContent: "flex-end",
+							alignItems: "flex-end",
+						}}
+					>
+						<Text style={{ textAlign: "right" }}>
+							<Link to={"/reset"} style={{ color: "black" }}>
+								Forgot Password?
+							</Link>
+						</Text>
+					</div>
+
+					<Button
+						w={"100%"}
+						text={"Sign In"}
+						m={"7% 0 0 0"}
 						onClick={() =>
 							logInWithEmailAndPassword(email, password)
 						}
-					>
-						Submit
-					</Submit>
-					<Google onClick={signInWithGoogle}>
-						Sign in with Google
-					</Google>
-					<Link to={"/reset"}>
-						<Text>Forgot Password</Text>
-					</Link>
-					<Link to={"/register"}>
-						<Text>Sign Up</Text>
-					</Link>
-					<Link to={"/"}>
-						<Text>Home</Text>
-					</Link>
+					/>
+
+					<Text style={{ marginTop: "2rem" }}>
+						Don't have and account?{" "}
+						<Link to={"/register"} style={{ color: "black" }}>
+							Sign Up
+						</Link>
+					</Text>
 				</Container>
 			)}
-		</div>
+		</>
 	)
 }
 
@@ -68,36 +96,14 @@ const Container = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-`
-
-const Email = styled.input`
-	border-radius: 8px;
-	text-align: left;
-	height: 48px;
-	width: 300px;
-	font-size: 17px;
-	padding-left: 16px;
-	margin-bottom: 5%;
-`
-const Password = styled.input`
-	border-radius: 8px;
-	text-align: left;
-	height: 48px;
-	width: 300px;
-	font-size: 17px;
-	padding-left: 16px;
-`
-const Submit = styled.button`
-	padding: 2% 5% 2% 5%;
-	margin-top: 5%;
-	cursor: pointer;
-`
-const Google = styled.button`
-	padding: 2% 5% 2% 5%;
-	margin-top: 5%;
-	cursor: pointer;
+	width: 350px;
 `
 const Text = styled.span`
-	font-size: 16px;
-	color: white;
+	font-size: 12px;
+	color: black;
+`
+const Title = styled.h1``
+
+const Or = styled.h5`
+	font-size: 12px;
 `

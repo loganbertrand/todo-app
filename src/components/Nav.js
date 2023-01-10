@@ -3,30 +3,36 @@ import styled from "styled-components"
 import { Link } from "react-router-dom"
 
 import { logout } from "../firebase"
-import { ButtonNav } from "./Button"
+import { Button } from "./Button"
 
 export const Nav = (props) => {
 	return (
 		<Container>
 			<Link to={"/"} style={{ textDecoration: "none" }}>
-				<Text>Home</Text>
+				<Button text="Home" />
 			</Link>
 			{props.user && (
 				<UserWrapper>
 					<Text style={{ paddingRight: "3%" }}>
 						{props.user.displayName}
 					</Text>
-					<ButtonNav
-						onClick={logout}
-						text="Sign Out"
-						m={"0 0 0 3%"}
-					/>
+					<Button onClick={logout} text="Sign Out" m={"0 0 0 3%"} />
 				</UserWrapper>
 			)}
 			{!props.user && (
-				<Link to={"/login"} style={{ textDecoration: "none" }}>
-					<Text>Login/Sign-Up</Text>
-				</Link>
+				<UserWrapper>
+					<Link to={"/login"} style={{ textDecoration: "none" }}>
+						<Button text="Sign In" />
+					</Link>
+					<Link to={"/register"} style={{ textDecoration: "none" }}>
+						<Button
+							text="Sign Up"
+							m={"0 0 0 5%"}
+							bc={"black"}
+							c={"white"}
+						/>
+					</Link>
+				</UserWrapper>
 			)}
 		</Container>
 	)

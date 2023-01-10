@@ -1,18 +1,17 @@
 import React from "react"
 import styled from "styled-components"
-import { ButtonCheck } from "./components/Button"
+import { ButtonCheck } from "./Button"
 
-export const TodoDemo = ({ todo, handleComplete, handleDelete }) => {
+export const TodoDemo = ({ todo, handleDelete }) => {
 	return (
 		<Container>
-			<CompleteButton onClick={handleComplete}>Complete</CompleteButton>
-			<DeleteButton onClick={handleDelete}>X</DeleteButton>
+			<ButtonCheck onClick={handleDelete} />
 			<Text completed={todo.isCompleted}>{todo.text}</Text>
 		</Container>
 	)
 }
 
-const Todo = ({ todo, handleComplete, handleDelete }) => {
+const Todo = ({ todo, handleDelete }) => {
 	return (
 		<Container>
 			<ButtonCheck onClick={handleDelete} />
@@ -34,20 +33,4 @@ const Container = styled.div`
 const Text = styled.p`
 	text-decoration: ${(props) => (props.completed ? "line-through" : null)};
 	text-align: left;
-`
-
-const CompleteButton = styled.button`
-	height: 20px;
-	padding: 5px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`
-
-const DeleteButton = styled.button`
-	height: 20px;
-	padding: 5px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 `

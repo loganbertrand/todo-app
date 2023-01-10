@@ -7,50 +7,93 @@ import {
 	registerWithEmailAndPassword,
 	signInWithGoogle,
 } from "../firebase"
-import { InputLogin } from "./Input"
+import { Input } from "./Input"
+import { Nav } from "./Nav"
+import { Button } from "./Button"
 
 const Register = () => {
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
+	const [confirmPassword, setConfirmPassword] = useState("")
 	const [name, setName] = useState("")
-	const [user, loading, error] = useAuthState(auth)
+	const [user, loading] = useAuthState(auth)
 	const navigate = useNavigate()
 	const register = () => {
-		if (!name) alert("Please enter name")
-		registerWithEmailAndPassword(name, email, password)
+		if (!name || confirmPassword !== password || !email) {
+			if (!name) {
+				alert("Please enter name")
+			}
+			if (confirmPassword !== password) {
+				alert("Please ensure your passwords match")
+			}
+			if (!email) {
+				alert("Please enter email")
+			}
+		} else {
+			registerWithEmailAndPassword(name, email, password)
+		}
 	}
 	useEffect(() => {
 		if (loading) return
 		if (user) navigate("/")
-	}, [user, loading])
+	}, [user, loading, navigate])
 
 	return (
-		<Container>
-			<InputLogin
-				placeholder="Full Name"
-				onChange={(e) => setName(e)}
-				mb="5%"
-			/>
-			<InputLogin
-				placeholder="Email Address"
-				onChange={(e) => setEmail(e)}
-				mb="5%"
-			/>
-			<InputLogin
-				type={"password"}
-				placeholder="Password"
-				onChange={(e) => setPassword(e)}
-				mb="5%"
-			/>
-			<Submit onClick={register}>Submit</Submit>
-			<Google onClick={signInWithGoogle}>Register with Google</Google>
-			<Link to={"/login"}>
-				<Text>Already have an Account?</Text>
-			</Link>
-			<Link to={"/"}>
-				<Text>Home</Text>
-			</Link>
-		</Container>
+		<>
+			<Nav />
+			<Title>Sign Up</Title>
+			<Container>
+				<Button
+					w={"100%"}
+					m={"0 0 5% 0"}
+					onClick={signInWithGoogle}
+					register
+				/>
+
+				<Or>or</Or>
+				<Input
+					placeholder="Full Name"
+					onChange={(e) => setName(e.target.value)}
+					mb="5%"
+					width={"100%"}
+					value={name}
+				/>
+				<Input
+					placeholder="Email Address"
+					onChange={(e) => setEmail(e.target.value)}
+					mb="5%"
+					width={"100%"}
+					value={email}
+				/>
+				<Input
+					type={"password"}
+					placeholder="Password"
+					onChange={(e) => setPassword(e.target.value)}
+					mb="5%"
+					width={"100%"}
+					value={password}
+				/>
+				<Input
+					type={"password"}
+					placeholder="Confirm Password"
+					onChange={(e) => setConfirmPassword(e.target.value)}
+					mb="5%"
+					width={"100%"}
+					value={confirmPassword}
+				/>
+				<Button
+					w={"100%"}
+					text={"Create Account"}
+					m={"7% 0 5% 0"}
+					onClick={() => register(email, password)}
+				/>
+				<Text style={{ textAlign: "right" }}>
+					<Link to={"/login"} style={{ color: "black" }}>
+						Already have an Account?
+					</Link>
+				</Text>
+			</Container>
+		</>
 	)
 }
 
@@ -61,19 +104,15 @@ const Container = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-`
-const Submit = styled.button`
-	padding: 2% 5% 2% 5%;
-	margin-top: 5%;
-	cursor: pointer;
-`
-const Google = styled.button`
-	padding: 2% 5% 2% 5%;
-	margin-top: 5%;
-	cursor: pointer;
+	width: 350px;
 `
 
+const Title = styled.h1``
+
 const Text = styled.span`
-	font-size: 16px;
+	font-size: 14px;
 	color: white;
+`
+const Or = styled.h5`
+	font-size: 12px;
 `

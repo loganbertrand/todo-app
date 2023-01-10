@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { getDocs, collection, where, orderBy } from "firebase/firestore"
@@ -8,11 +7,9 @@ import Todo, { TodoDemo } from "./components/Todo"
 import TodoForm from "./components/TodoForm"
 import { Nav } from "./components/Nav"
 
-import { auth, logout, postTodo, db, deleteTodoItem } from "./firebase"
+import { auth, postTodo, db, deleteTodoItem } from "./firebase"
 
 const Home = () => {
-	const navigate = useNavigate()
-
 	const [user, loading] = useAuthState(auth)
 	const [todosDemo, setTodosDemo] = useState([
 		{
@@ -30,7 +27,6 @@ const Home = () => {
 	])
 
 	const [todos, setTodos] = useState([])
-
 	const [value, setValue] = useState("")
 
 	const handleSubmit = (e) => {
@@ -96,7 +92,6 @@ const Home = () => {
 	return (
 		<>
 			<Nav user={user} />
-
 			<Container>
 				<Title>Daily Tasks</Title>
 				<TodoForm
@@ -104,7 +99,6 @@ const Home = () => {
 					onChange={(e) => setValue(e.target.value)}
 					value={value}
 				/>
-
 				{!user && !loading && (
 					<>
 						<TodoContainer>
@@ -122,13 +116,6 @@ const Home = () => {
 								/>
 							))}
 						</TodoContainer>
-						<Nudge
-							onClick={() => {
-								navigate("/login")
-							}}
-						>
-							Login
-						</Nudge>
 					</>
 				)}
 				{user && !loading && (
@@ -145,15 +132,6 @@ const Home = () => {
 								/>
 							))}
 						</TodoContainer>
-						<Nudge
-							onClick={() => {
-								logout()
-							}}
-						>
-							Logout
-						</Nudge>
-						<br />
-						<Nudge>{user.displayName}</Nudge>
 					</>
 				)}
 			</Container>
@@ -171,8 +149,5 @@ const TodoContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-`
-const Nudge = styled.span`
-	font-size: 16px;
-	cursor: pointer;
+	margin-top: 5%;
 `
