@@ -11,6 +11,7 @@ const Input = (props) => {
 			value={props.value}
 			onChange={props.onChange}
 			placeholder={props.placeholder}
+			error={props.error}
 		/>
 	)
 }
@@ -20,7 +21,8 @@ export { Input }
 const InputField = styled.input`
 	background: transparent;
 	border: none;
-	border-bottom: 1px solid #000000;
+	border-bottom: ${(props) =>
+		props.error ? "1px solid red" : "1px solid #000000"};
 	box-shaow: none;
 	text-align: left;
 	height: ${(props) => (props.height ? props.height : "48px")};

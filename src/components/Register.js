@@ -16,20 +16,49 @@ const Register = () => {
 	const [password, setPassword] = useState("")
 	const [confirmPassword, setConfirmPassword] = useState("")
 	const [name, setName] = useState("")
+	const [nameError, setNameError] = useState(false)
+	const [emailError, setEmailError] = useState(false)
+	const [passwordError, setPasswordError] = useState(false)
+	const [confirmError, setConfirmError] = useState(false)
 	const [user, loading] = useAuthState(auth)
 	const navigate = useNavigate()
 	const register = () => {
-		if (!name || confirmPassword !== password || !email) {
+		if (
+			!name ||
+			confirmPassword !== password ||
+			!email ||
+			!password ||
+			!confirmPassword
+		) {
 			if (!name) {
-				alert("Please enter name")
+				setNameError(true)
+			} else if (name) {
+				setNameError(false)
+			}
+
+			if (!email) {
+				setEmailError(true)
+			} else if (email) {
+				setEmailError(false)
+			}
+			if (!password) {
+				setPasswordError(true)
+			} else if (password) {
+				setPasswordError(false)
+			}
+			if (!confirmPassword || confirmPassword !== password) {
+				setConfirmError(true)
+			} else if (confirmPassword && confirmPassword === password) {
+				setConfirmError(false)
 			}
 			if (confirmPassword !== password) {
 				alert("Please ensure your passwords match")
 			}
-			if (!email) {
-				alert("Please enter email")
-			}
 		} else {
+			setNameError(false)
+			setEmailError(false)
+			setPasswordError(false)
+			setConfirmError(false)
 			registerWithEmailAndPassword(name, email, password)
 		}
 	}
@@ -57,6 +86,7 @@ const Register = () => {
 					mb="5%"
 					width={"100%"}
 					value={name}
+					error={nameError}
 				/>
 				<Input
 					placeholder="Email Address"
@@ -64,6 +94,7 @@ const Register = () => {
 					mb="5%"
 					width={"100%"}
 					value={email}
+					error={emailError}
 				/>
 				<Input
 					type={"password"}
@@ -72,6 +103,7 @@ const Register = () => {
 					mb="5%"
 					width={"100%"}
 					value={password}
+					error={passwordError}
 				/>
 				<Input
 					type={"password"}
@@ -80,6 +112,7 @@ const Register = () => {
 					mb="5%"
 					width={"100%"}
 					value={confirmPassword}
+					error={confirmError}
 				/>
 				<Button
 					w={"100%"}

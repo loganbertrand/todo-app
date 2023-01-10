@@ -12,13 +12,17 @@ import { Button } from "./Button"
 const Login = () => {
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
-	const [user, loading, error] = useAuthState(auth)
+	const [user, loading] = useAuthState(auth)
 	const navigate = useNavigate()
+
+	const signIn = (email, password) => {
+		logInWithEmailAndPassword(email, password)
+	}
 
 	useEffect(() => {
 		if (loading) return
 		if (user) navigate("/")
-	}, [user, loading])
+	}, [user, loading, navigate])
 	return (
 		<>
 			<Nav />
@@ -38,43 +42,35 @@ const Login = () => {
 						m={"0 0 5% 0"}
 						onClick={signInWithGoogle}
 					/>
-
 					<Or>or</Or>
-
 					<Input
 						placeholder="Email"
-						onChange={(e) => setEmail(e)}
+						onChange={(e) => setEmail(e.target.value)}
 						mb={"5%"}
 						width={"100%"}
+						value={email}
 					/>
 					<Input
 						type={"password"}
 						placeholder="Password"
 						mb={"5%"}
 						width={"100%"}
-						onChange={(e) => setPassword(e)}
+						onChange={(e) => setPassword(e.target.value)}
+						value={password}
 					/>
-					<div
-						style={{
-							flexDirection: "row",
-							justifyContent: "flex-end",
-							alignItems: "flex-end",
-						}}
-					>
+					<ForgotWrapper>
 						<Text style={{ textAlign: "right" }}>
 							<Link to={"/reset"} style={{ color: "black" }}>
 								Forgot Password?
 							</Link>
 						</Text>
-					</div>
+					</ForgotWrapper>
 
 					<Button
 						w={"100%"}
 						text={"Sign In"}
 						m={"7% 0 0 0"}
-						onClick={() =>
-							logInWithEmailAndPassword(email, password)
-						}
+						onClick={() => signIn(email, password)}
 					/>
 
 					<Text style={{ marginTop: "2rem" }}>
@@ -106,4 +102,13 @@ const Title = styled.h1``
 
 const Or = styled.h5`
 	font-size: 12px;
+`
+const ForgotWrapper = styled.div`
+	flex-direction: "row";
+	justify-content: "flex-end";
+	align-items: "flex-end";
+`
+const ErrorText = styled.p`
+	font-size: 12px;
+	color: red;
 `
