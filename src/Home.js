@@ -141,7 +141,14 @@ const Home = () => {
 
 export default Home
 
-const Container = styled.div``
+const Container = styled.div`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 3%;
+`
 
 const Title = styled.h1``
 
@@ -150,4 +157,10 @@ const TodoContainer = styled.div`
 	flex-direction: column;
 	justify-content: flex-start;
 	margin-top: 5%;
+	@media (min-width: 1000px) {
+		width: 55%;
+	}
+	@media (max-width: 999px) {
+		width: 75%;
+	}
 `

@@ -5,6 +5,7 @@ import Home from "./Home"
 import Login from "./components/Login"
 import Reset from "./components/Reset"
 import Register from "./components/Register"
+import { Footer } from "./components/Footer"
 
 function App() {
 	return (
@@ -19,6 +20,7 @@ function App() {
 					</Routes>
 				</Router>
 			</header>
+			<Footer />
 		</div>
 	)
 }
