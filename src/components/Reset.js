@@ -5,27 +5,39 @@ import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { auth, sendPasswordReset } from "../firebase"
 import { Input } from "./Input"
+import { Button } from "./Button"
 
 const Reset = () => {
 	const [email, setEmail] = useState("")
-	const [user, loading, error] = useAuthState(auth)
+	const [user, loading] = useAuthState(auth)
 	const navigate = useNavigate()
 	useEffect(() => {
 		if (loading) return
 		if (user) navigate("/")
-	}, [user, loading])
+	}, [user, loading, navigate])
 	return (
 		<Container>
-			<Input placeholder="Email Address" onChange={(e) => setEmail(e)} />
-			<Submit onClick={() => sendPasswordReset(email)}>
-				Send Reset Email
-			</Submit>
-			<Link to={"/login"}>
-				<Text>Don't have an Account?</Text>
-			</Link>
-			<Link to={"/"}>
-				<Text>Home</Text>
-			</Link>
+			<Title>Reset</Title>
+			<Input
+				placeholder="Email"
+				onChange={(e) => setEmail(e.target.value)}
+				mb={"5%"}
+				width={"100%"}
+				value={email}
+			/>
+			<Button
+				w={"100%"}
+				text={"Send Reset Email"}
+				m={"7% 0 0 0"}
+				onClick={() => sendPasswordReset(email)}
+			/>
+
+			<Text style={{ marginTop: "2rem" }}>
+				Don't have and account?{" "}
+				<Link to={"/register"} style={{ color: "black" }}>
+					Sign Up
+				</Link>
+			</Text>
 		</Container>
 	)
 }
@@ -37,13 +49,10 @@ const Container = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-`
-const Submit = styled.button`
-	padding: 2% 5% 2% 5%;
-	margin-top: 5%;
-	cursor: pointer;
+	width: 350px;
 `
 const Text = styled.span`
 	font-size: 16px;
-	color: white;
+	color: black;
 `
+const Title = styled.h1``

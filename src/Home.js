@@ -5,7 +5,6 @@ import { getDocs, collection, where, orderBy } from "firebase/firestore"
 
 import Todo, { TodoDemo } from "./components/Todo"
 import TodoForm from "./components/TodoForm"
-import { Nav } from "./components/Nav"
 
 import { auth, postTodo, db, deleteTodoItem } from "./firebase"
 
@@ -91,7 +90,6 @@ const Home = () => {
 	}, [user, loading])
 	return (
 		<>
-			<Nav user={user} />
 			<Container>
 				<Title>Daily Tasks</Title>
 				<TodoForm

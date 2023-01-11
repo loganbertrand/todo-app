@@ -8,7 +8,7 @@ import {
 	signInWithGoogle,
 } from "../firebase"
 import { Input } from "./Input"
-import { Nav } from "./Nav"
+
 import { Button } from "./Button"
 
 const Register = () => {
@@ -69,7 +69,6 @@ const Register = () => {
 
 	return (
 		<>
-			<Nav />
 			<Title>Sign Up</Title>
 			<Container>
 				<Button
@@ -89,7 +88,7 @@ const Register = () => {
 					error={nameError}
 				/>
 				<Input
-					placeholder="Email Address"
+					placeholder="Email"
 					onChange={(e) => setEmail(e.target.value)}
 					mb="5%"
 					width={"100%"}

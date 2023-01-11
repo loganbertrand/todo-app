@@ -5,7 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import { ColorRing } from "react-loader-spinner"
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../firebase"
-import { Nav } from "./Nav"
+
 import { Input } from "./Input"
 import { Button } from "./Button"
 
@@ -25,7 +25,6 @@ const Login = () => {
 	}, [user, loading, navigate])
 	return (
 		<>
-			<Nav />
 			<Title>Sign In</Title>
 			{loading && (
 				<ColorRing
@@ -107,8 +106,4 @@ const ForgotWrapper = styled.div`
 	flex-direction: "row";
 	justify-content: "flex-end";
 	align-items: "flex-end";
-`
-const ErrorText = styled.p`
-	font-size: 12px;
-	color: red;
 `

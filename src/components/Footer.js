@@ -6,7 +6,7 @@ export const Footer = () => {
 	return (
 		<Container>
 			<Copyright>
-				Copyright ©{" "}
+				Built by{" "}
 				<a
 					style={{ color: "black" }}
 					href="https://www.loganbertrand.com/"
