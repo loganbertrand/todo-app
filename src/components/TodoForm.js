@@ -19,10 +19,10 @@ const TodoForm = ({ value, onChange, onSubmit }) => {
 export default TodoForm
 
 const FormContainer = styled.form`
-	@media (min-width: 1000px) {
+	@media (min-width: 1024px) {
 		width: 55%;
 	}
-	@media (max-width: 999px) {
+	@media (max-width: 1023px) {
 		width: 75%;
 	}
 `

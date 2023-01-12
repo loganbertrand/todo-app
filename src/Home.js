@@ -155,10 +155,10 @@ const TodoContainer = styled.div`
 	flex-direction: column;
 	justify-content: flex-start;
 	margin-top: 5%;
-	@media (min-width: 1000px) {
+	@media (min-width: 1024px) {
 		width: 55%;
 	}
-	@media (max-width: 999px) {
+	@media (max-width: 1023px) {
 		width: 75%;
 	}
 `
