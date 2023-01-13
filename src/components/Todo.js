@@ -2,10 +2,10 @@ import React from "react"
 import styled from "styled-components"
 import { ButtonCheck } from "./Button"
 
-export const TodoDemo = ({ todo, handleDelete }) => {
+export const TodoDemo = ({ todo, handleDelete, completed }) => {
 	return (
 		<Container>
-			<ButtonCheck onClick={handleDelete} />
+			<ButtonCheck onClick={handleDelete} completed={completed} />
 			<Text>{todo.text}</Text>
 		</Container>
 	)

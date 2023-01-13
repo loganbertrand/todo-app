@@ -187,6 +187,7 @@ const WrapperContainer = styled.div`
 	justify-content: flex-start;
 	align-items: flex-start;
 	padding-left: 40px;
+	width: 90%;
 `
 const NavButton = styled.div`
 	width: 50px;

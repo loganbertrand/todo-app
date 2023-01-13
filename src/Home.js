@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { getDocs, collection, where, orderBy } from "firebase/firestore"
+import autoAnimate from "@formkit/auto-animate"
 
 import Todo, { TodoDemo } from "./components/Todo"
 import TodoForm from "./components/TodoForm"
@@ -27,6 +28,7 @@ const Home = () => {
 
 	const [todos, setTodos] = useState([])
 	const [value, setValue] = useState("")
+	const parent = useRef(null)
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
@@ -77,6 +79,10 @@ const Home = () => {
 	}
 
 	useEffect(() => {
+		parent.current && autoAnimate(parent.current)
+	}, [parent])
+
+	useEffect(() => {
 		if (loading) return
 		if (user) {
 			grabTodos(user.uid)
@@ -91,9 +97,9 @@ const Home = () => {
 					onChange={(e) => setValue(e.target.value)}
 					value={value}
 				/>
-				{!user && !loading && (
-					<>
-						<TodoContainer>
+				<TodoContainer ref={parent}>
+					{!user && !loading && (
+						<>
 							{todosDemo.map((todo, index) => (
 								<TodoDemo
 									key={index}
@@ -104,12 +110,10 @@ const Home = () => {
 									}}
 								/>
 							))}
-						</TodoContainer>
-					</>
-				)}
-				{user && !loading && (
-					<>
-						<TodoContainer>
+						</>
+					)}
+					{user && !loading && (
+						<>
 							{todos.map((todo, index) => (
 								<Todo
 									key={index}
@@ -120,9 +124,9 @@ const Home = () => {
 									}}
 								/>
 							))}
-						</TodoContainer>
-					</>
-				)}
+						</>
+					)}
+				</TodoContainer>
 			</Container>
 		</>
 	)
