@@ -1,6 +1,11 @@
 # Todo App by Logan Bertrand
 
-This project was created with React and Styled Components.
+This project was created with:
+
+-   React
+-   Styled Components
+-   Firebase Authentication
+-   Firebase Firestore database
 
 ## Available Scripts
 
