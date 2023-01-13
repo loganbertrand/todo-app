@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { UilBars } from "@iconscout/react-unicons"
 
 import { logout } from "../firebase"
@@ -9,6 +9,8 @@ import { Button } from "./Button"
 export const Nav = (props) => {
 	const [windowDimension, setWindowDimension] = useState(null)
 	const [navOpen, setNavOpen] = useState(false)
+
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		setWindowDimension(window.innerWidth)
@@ -26,7 +28,10 @@ export const Nav = (props) => {
 		<>
 			{windowDimension >= 1024 && (
 				<Container>
-					<Link to={"/"} style={{ textDecoration: "none" }}>
+					<Link
+						to={"/"}
+						style={{ textDecoration: "none", marginLeft: "3%" }}
+					>
 						<Button text="Home" />
 					</Link>
 					{props.user && (
@@ -65,7 +70,9 @@ export const Nav = (props) => {
 				</Container>
 			)}
 			{windowDimension <= 1023 && (
-				<span style={{ marginTop: "12%" }}>
+				<span
+					style={{ marginTop: "12%", backgroundColor: "whitesmoke" }}
+				>
 					{!navOpen && (
 						<NavButtonContainer>
 							<NavButton
@@ -93,7 +100,11 @@ export const Nav = (props) => {
 							{props.user && (
 								<>
 									<Link
-										onClick={() => setNavOpen(false)}
+										onClick={() => {
+											setTimeout(() => {
+												setNavOpen(false)
+											}, 300)
+										}}
 										to={"/"}
 										style={{ color: "white" }}
 									>
@@ -119,22 +130,34 @@ export const Nav = (props) => {
 							{!props.user && (
 								<>
 									<Link
-										onClick={() => setNavOpen(false)}
-										to={"/"}
+										onClick={() => {
+											setNavOpen(false)
+											setTimeout(() => {
+												navigate("/")
+											}, 400)
+										}}
 										style={{ color: "white" }}
 									>
 										<NavText>Home</NavText>
 									</Link>
 									<Link
-										onClick={() => setNavOpen(false)}
-										to={"/login"}
+										onClick={() => {
+											setNavOpen(false)
+											setTimeout(() => {
+												navigate("/login")
+											}, 400)
+										}}
 										style={{ color: "white" }}
 									>
 										<NavText>Sign In</NavText>
 									</Link>
 									<Link
-										onClick={() => setNavOpen(false)}
-										to={"/register"}
+										onClick={() => {
+											setNavOpen(false)
+											setTimeout(() => {
+												navigate("/register")
+											}, 300)
+										}}
 										style={{ color: "white" }}
 									>
 										<NavText>Sign Up</NavText>
@@ -153,11 +176,13 @@ const Container = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	width: 96%;
+	width: 100%;
+
 	padding-top: 1%;
-	margin-bottom: 3%;
+	padding-bottom: 3%;
+	background-color: whitesmoke;
 `
-const Text = styled.h5`
+const Text = styled.h3`
 	padding: 0;
 	margin: 0;
 	color: black;
@@ -168,6 +193,7 @@ const UserWrapper = styled.span`
 	justify-content: flex-end;
 	align-items: center;
 	width: 25%;
+	margin-right: 3%;
 `
 const Wrapper = styled.div`
 	height: 100%;
