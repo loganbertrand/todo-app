@@ -6,7 +6,7 @@ export const TodoDemo = ({ todo, handleDelete }) => {
 	return (
 		<Container>
 			<ButtonCheck onClick={handleDelete} />
-			<Text completed={todo.isCompleted}>{todo.text}</Text>
+			<Text>{todo.text}</Text>
 		</Container>
 	)
 }
@@ -31,6 +31,5 @@ const Container = styled.div`
 `
 
 const Text = styled.p`
-	text-decoration: ${(props) => (props.completed ? "line-through" : null)};
 	text-align: left;
 `

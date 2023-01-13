@@ -10,13 +10,32 @@ import { Button } from "./Button"
 const Reset = () => {
 	const [email, setEmail] = useState("")
 	const [user, loading] = useAuthState(auth)
+	const [windowDimension, setWindowDimension] = useState(null)
+
 	const navigate = useNavigate()
+
 	useEffect(() => {
 		if (loading) return
 		if (user) navigate("/")
 	}, [user, loading, navigate])
+
+	useEffect(() => {
+		setWindowDimension(window.innerWidth)
+	}, [])
+
+	useEffect(() => {
+		function handleResize() {
+			setWindowDimension(window.innerWidth)
+		}
+
+		window.addEventListener("resize", handleResize)
+		return () => window.removeEventListener("resize", handleResize)
+	}, [])
+
 	return (
-		<Container>
+		<Container
+			style={windowDimension > 400 ? { width: 350 } : { width: 300 }}
+		>
 			<Title>Reset</Title>
 			<Input
 				placeholder="Email"
@@ -49,7 +68,6 @@ const Container = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 350px;
 `
 const Text = styled.span`
 	font-size: 16px;

@@ -28,7 +28,7 @@ export const Button = (props) => {
 
 export const ButtonCheck = (props) => {
 	return (
-		<CheckButton onClick={props.onClick}>
+		<CheckButton onClick={props.onClick} completed={props.completed}>
 			<UilCheck />
 		</CheckButton>
 	)
@@ -53,9 +53,10 @@ const CheckButton = styled.button`
 	padding: 2px;
 	background-color: transparent;
 	border-radius: 0px;
-	box-shadow: none;
+	box-shadow: ${(props) =>
+		props.completed ? "inset 100px 0 0 0 #e0e0e0" : "none"};
 	border: solid;
-	color: black;
+	color: ${(props) => (props.completed ? "white" : "black")};
 	font-size: 14px;
 	display: flex;
 	justify-content: center;

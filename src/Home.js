@@ -47,12 +47,6 @@ const Home = () => {
 		}
 	}
 
-	const completeTodoDemo = async (index) => {
-		const newTodos = [...todosDemo]
-		newTodos[index].isCompleted = true
-		setTodosDemo(newTodos)
-	}
-
 	const deleteTodo = async (index, todo) => {
 		if (!loading) {
 			if (user) {
@@ -105,9 +99,6 @@ const Home = () => {
 									key={index}
 									index={index}
 									todo={todo}
-									handleComplete={() => {
-										completeTodoDemo(index)
-									}}
 									handleDelete={() => {
 										deleteTodo(index, todo)
 									}}

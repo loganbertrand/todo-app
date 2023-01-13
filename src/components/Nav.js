@@ -65,7 +65,7 @@ export const Nav = (props) => {
 				</Container>
 			)}
 			{windowDimension <= 1023 && (
-				<>
+				<span style={{ marginTop: "12%" }}>
 					{!navOpen && (
 						<NavButtonContainer>
 							<NavButton
@@ -79,55 +79,71 @@ export const Nav = (props) => {
 					)}
 
 					<Wrapper
-						style={navOpen ? { width: "300px" } : { width: "0px" }}
+						style={navOpen ? { width: "350px" } : { width: "0px" }}
 					>
-						<CloseButton
-							onClick={() => {
-								setNavOpen(false)
-							}}
-						>
-							&times;
-						</CloseButton>
-						<Link
-							onClick={() => setNavOpen(false)}
-							to={"/"}
-							style={{ textDecoration: "none" }}
-						>
-							<NavText>Home</NavText>
-						</Link>
-						{props.user && (
-							<MenuWrapper>
-								<NavText>{props.user.displayName}</NavText>
-								<NavText
-									onClick={() => {
-										setNavOpen(false)
-										logout()
-									}}
-								>
-									Sign Out
-								</NavText>
-							</MenuWrapper>
-						)}
-						{!props.user && (
-							<MenuWrapper>
-								<Link
-									onClick={() => setNavOpen(false)}
-									to={"/login"}
-									style={{ textDecoration: "none" }}
-								>
-									<NavText>Sign In</NavText>
-								</Link>
-								<Link
-									onClick={() => setNavOpen(false)}
-									to={"/register"}
-									style={{ textDecoration: "none" }}
-								>
-									<NavText>Sign Up</NavText>
-								</Link>
-							</MenuWrapper>
-						)}
+						<WrapperContainer>
+							<CloseButton
+								onClick={() => {
+									setNavOpen(false)
+								}}
+							>
+								&times;
+							</CloseButton>
+
+							{props.user && (
+								<>
+									<Link
+										onClick={() => setNavOpen(false)}
+										to={"/"}
+										style={{ color: "white" }}
+									>
+										<NavText>Home</NavText>
+									</Link>
+
+									<NavText
+										style={{
+											textDecoration: "underline",
+										}}
+										onClick={() => {
+											setNavOpen(false)
+											logout()
+										}}
+									>
+										Sign Out
+									</NavText>
+									<NavText>
+										User: {props.user.displayName}
+									</NavText>
+								</>
+							)}
+							{!props.user && (
+								<>
+									<Link
+										onClick={() => setNavOpen(false)}
+										to={"/"}
+										style={{ color: "white" }}
+									>
+										<NavText>Home</NavText>
+									</Link>
+									<Link
+										onClick={() => setNavOpen(false)}
+										to={"/login"}
+										style={{ color: "white" }}
+									>
+										<NavText>Sign In</NavText>
+									</Link>
+									<Link
+										onClick={() => setNavOpen(false)}
+										to={"/register"}
+										style={{ color: "white" }}
+									>
+										<NavText>Sign Up</NavText>
+									</Link>
+								</>
+							)}
+						</WrapperContainer>
 					</Wrapper>
-				</>
+				</span>
 			)}
 		</>
 	)
@@ -151,7 +167,7 @@ const UserWrapper = styled.span`
 	flex-direction: row;
 	justify-content: flex-end;
 	align-items: center;
-	width: 20%;
+	width: 25%;
 `
 const Wrapper = styled.div`
 	height: 100%;
@@ -161,16 +177,16 @@ const Wrapper = styled.div`
 	right: 0;
 	background-color: #111;
 	overflow-x: hidden;
-	padding-top: 60px;
+	padding-top: 70px;
 	transition: 0.5s;
 	white-space: nowrap;
 `
-const MenuWrapper = styled.span`
+const WrapperContainer = styled.div`
 	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	padding-left: 40px;
 `
 const NavButton = styled.div`
 	width: 50px;
@@ -203,8 +219,10 @@ const CloseButton = styled.span`
 	margin-left: 50px;
 	color: white;
 `
-const NavText = styled.h5`
+const NavText = styled.h3`
 	padding: 0;
 	margin: 0;
 	color: white;
+	margin-top: 8%;
+	word-wrap: wrap;
 `

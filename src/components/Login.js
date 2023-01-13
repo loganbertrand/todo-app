@@ -13,6 +13,20 @@ const Login = () => {
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 	const [user, loading] = useAuthState(auth)
+	const [windowDimension, setWindowDimension] = useState(null)
+
+	useEffect(() => {
+		setWindowDimension(window.innerWidth)
+	}, [])
+
+	useEffect(() => {
+		function handleResize() {
+			setWindowDimension(window.innerWidth)
+		}
+
+		window.addEventListener("resize", handleResize)
+		return () => window.removeEventListener("resize", handleResize)
+	}, [])
 	const navigate = useNavigate()
 
 	const signIn = (email, password) => {
@@ -35,7 +49,11 @@ const Login = () => {
 				/>
 			)}
 			{!loading && (
-				<Container>
+				<Container
+					style={
+						windowDimension > 400 ? { width: 350 } : { width: 300 }
+					}
+				>
 					<Button
 						w={"100%"}
 						m={"0 0 5% 0"}

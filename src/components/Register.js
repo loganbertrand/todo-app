@@ -22,6 +22,8 @@ const Register = () => {
 	const [confirmError, setConfirmError] = useState(false)
 	const [user, loading] = useAuthState(auth)
 	const navigate = useNavigate()
+	const [windowDimension, setWindowDimension] = useState(null)
+
 	const register = () => {
 		if (
 			!name ||
@@ -67,10 +69,25 @@ const Register = () => {
 		if (user) navigate("/")
 	}, [user, loading, navigate])
 
+	useEffect(() => {
+		setWindowDimension(window.innerWidth)
+	}, [])
+
+	useEffect(() => {
+		function handleResize() {
+			setWindowDimension(window.innerWidth)
+		}
+
+		window.addEventListener("resize", handleResize)
+		return () => window.removeEventListener("resize", handleResize)
+	}, [])
+
 	return (
 		<>
 			<Title>Sign Up</Title>
-			<Container>
+			<Container
+				style={windowDimension > 400 ? { width: 350 } : { width: 300 }}
+			>
 				<Button
 					w={"100%"}
 					m={"0 0 5% 0"}
@@ -136,7 +153,6 @@ const Container = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 350px;
 `
 
 const Title = styled.h1``
