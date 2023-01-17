@@ -10,6 +10,7 @@ export const Footer = () => {
 				<a
 					style={{ color: "black" }}
 					href="https://www.loganbertrand.com/"
+					aria-label="Personal Portfolio link for Logan Bertrand"
 				>
 					Logan Bertrand
 				</a>{" "}
@@ -21,6 +22,7 @@ export const Footer = () => {
 					style={{ color: "black" }}
 					target="_blank"
 					rel="noreferrer"
+					aria-label="View Logan Bertrand's Github Profile"
 				>
 					<UilGithub fontSize="medium" />
 				</a>
@@ -29,6 +31,7 @@ export const Footer = () => {
 					style={{ color: "black" }}
 					target="_blank"
 					rel="noreferrer"
+					aria-label="View Logan Bertrand's LinkedIn Profile"
 				>
 					<UilLinkedin fontSize="medium" />
 				</a>

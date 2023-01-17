@@ -28,7 +28,11 @@ export const Button = (props) => {
 
 export const ButtonCheck = (props) => {
 	return (
-		<CheckButton onClick={props.onClick} completed={props.completed}>
+		<CheckButton
+			onClick={props.onClick}
+			completed={props.completed}
+			aria-label="Click to complete task from the list"
+		>
 			<UilCheck />
 		</CheckButton>
 	)
